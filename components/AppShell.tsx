@@ -8,6 +8,8 @@ import { useFilters } from "@/hooks/useFilters";
 import Sidebar from "./Sidebar";
 import CategorySection from "./CategorySection";
 import AddCategoryInput from "./AddCategoryInput";
+import TopBar from "./TopBar";
+import SummaryBar from "./SummaryBar";
 
 export default function AppShell() {
   const { categories, loading: catLoading, addCategory, renameCategory, deleteCategory } = useCategories();
@@ -59,7 +61,7 @@ export default function AppShell() {
       : categories.filter((c) => c.id === categoryFilter);
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-stone">
       <Sidebar
         categories={categories}
         tasks={tasks}
@@ -75,35 +77,18 @@ export default function AppShell() {
         onMobileClose={() => setIsMobileSidebarOpen(false)}
       />
 
-      <main className="flex-1">
-        <button
-          onClick={() => setIsMobileSidebarOpen(true)}
-          className="fixed left-3 top-3 z-30 rounded-lg bg-white p-2 shadow-md ring-1 ring-gray-200 md:hidden"
-          aria-label="Open menu"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="h-5 w-5 text-gray-700"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"
-            />
-          </svg>
-        </button>
+      <main className="flex flex-1 flex-col">
+        <TopBar onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)} />
 
         {loading ? (
-          <div className="flex min-h-screen items-center justify-center">
-            <div className="text-sm text-gray-400">Loading...</div>
+          <div className="flex flex-1 items-center justify-center">
+            <div className="text-sm text-ink-40">Loading...</div>
           </div>
         ) : (
           <>
-            <div className="mx-auto w-full max-w-3xl space-y-3 px-4 pt-16 md:pt-6 pb-2">
+            <SummaryBar tasks={tasks} />
+
+            <div className="mx-auto w-full max-w-3xl space-y-3 px-4 pt-6 pb-2">
               {visibleCategories.map((cat) => {
                 const catTasks = tasksForCategory(cat.id);
                 if (isFiltering && catTasks.length === 0) return null;
@@ -124,9 +109,9 @@ export default function AppShell() {
               })}
 
               {categories.length === 0 && (
-                <div className="rounded-xl border border-dashed border-gray-300 py-12 text-center">
-                  <p className="text-sm text-gray-500">No categories yet</p>
-                  <p className="mt-1 text-xs text-gray-400">
+                <div className="rounded-md border border-dashed border-ink-20 py-12 text-center">
+                  <p className="text-sm text-ink-60">No categories yet</p>
+                  <p className="mt-1 text-xs text-ink-40">
                     Add a category below to get started
                   </p>
                 </div>
@@ -137,13 +122,13 @@ export default function AppShell() {
                   (c) => tasksForCategory(c.id).length === 0
                 ) &&
                 categories.length > 0 && (
-                  <div className="rounded-xl border border-dashed border-gray-300 py-12 text-center">
-                    <p className="text-sm text-gray-500">
+                  <div className="rounded-md border border-dashed border-ink-20 py-12 text-center">
+                    <p className="text-sm text-ink-60">
                       No tasks match the current filters
                     </p>
                     <button
                       onClick={resetFilters}
-                      className="mt-2 text-xs font-medium text-teal-700 hover:text-teal-800"
+                      className="mt-2 text-xs font-medium text-terra hover:text-terra-muted"
                     >
                       Reset filters
                     </button>
