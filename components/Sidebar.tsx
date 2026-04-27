@@ -2,6 +2,7 @@
 
 import { Category, Task, TaskStatus, UserName } from "@/lib/database.types";
 import { statusLabel } from "@/lib/utils";
+import { AcuteLockup } from "./Brand";
 
 type AssigneeFilter = "All" | UserName;
 type StatusFilter = "All" | TaskStatus;
@@ -33,10 +34,10 @@ function FilterRow({ label, count, active, onClick }: FilterRowProps) {
   return (
     <button
       onClick={onClick}
-      className={`flex w-full items-center justify-between rounded-md border-l-2 px-3 py-2 text-left text-sm transition-colors ${
+      className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm transition-colors ${
         active
-          ? "border-teal-600 bg-teal-50 font-medium text-teal-900"
-          : "border-transparent text-gray-700 hover:bg-gray-100"
+          ? "bg-terra text-white"
+          : "text-ink-60 hover:bg-ink-06 hover:text-navy"
       }`}
     >
       <span className="truncate">{label}</span>
@@ -44,9 +45,10 @@ function FilterRow({ label, count, active, onClick }: FilterRowProps) {
         <span
           className={`ml-2 shrink-0 rounded-full px-2 py-0.5 text-xs ${
             active
-              ? "bg-teal-100 text-teal-800"
-              : "bg-gray-100 text-gray-500"
+              ? "bg-white/20 text-white"
+              : "bg-ink-06 text-ink-60"
           }`}
+          style={{ fontFamily: "var(--font-jetbrains-mono)", fontVariantNumeric: "tabular-nums" }}
         >
           {count}
         </span>
@@ -56,11 +58,7 @@ function FilterRow({ label, count, active, onClick }: FilterRowProps) {
 }
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="mb-1.5 px-3 text-xs font-semibold uppercase tracking-wide text-gray-400">
-      {children}
-    </p>
-  );
+  return <p className="mb-1.5 px-3 mono-label">{children}</p>;
 }
 
 export default function Sidebar({
@@ -96,10 +94,9 @@ export default function Sidebar({
 
   const content = (
     <>
-      <div className="px-5 pt-6 pb-4">
-        <h1 className="text-lg font-bold text-gray-900">
-          Acute Deal Tracker
-        </h1>
+      <div className="px-5 pt-6 pb-5">
+        <AcuteLockup size={22} />
+        <p className="mt-1.5 text-[13px] font-medium text-ink-60">Deal Tracker</p>
       </div>
 
       <nav className="flex-1 space-y-6 overflow-y-auto px-2 pb-6">
@@ -158,7 +155,7 @@ export default function Sidebar({
           <div className="px-3">
             <button
               onClick={handleSelect(onResetFilters)}
-              className="text-xs font-medium text-teal-700 hover:text-teal-800"
+              className="text-xs font-medium text-terra hover:text-terra-muted"
             >
               Reset filters
             </button>
@@ -171,7 +168,7 @@ export default function Sidebar({
   return (
     <>
       {/* Desktop: persistent sidebar */}
-      <aside className="hidden md:flex md:w-64 md:flex-col md:border-r md:border-gray-200 md:bg-white">
+      <aside className="hidden md:flex md:w-64 md:flex-col md:border-r md:border-ink-10 md:bg-stone-2">
         {content}
       </aside>
 
@@ -189,7 +186,7 @@ export default function Sidebar({
           }`}
         />
         <aside
-          className={`absolute inset-y-0 left-0 flex w-64 flex-col border-r border-gray-200 bg-white shadow-lg transition-transform duration-200 ${
+          className={`absolute inset-y-0 left-0 flex w-64 flex-col border-r border-ink-10 bg-stone-2 shadow-lg transition-transform duration-200 ${
             isMobileOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
