@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Category, Task, UserName } from "@/lib/database.types";
+import { Category, Task } from "@/lib/database.types";
 import CategoryHeader from "./CategoryHeader";
 import TaskRow from "./TaskRow";
 import AddTaskInput from "./AddTaskInput";
@@ -11,7 +11,6 @@ interface CategorySectionProps {
   category: Category;
   tasks: Task[];
   expandedTaskId: string | null;
-  currentUser: UserName | null;
   onToggleTaskExpand: (taskId: string) => void;
   onAddTask: (categoryId: string, title: string) => Promise<void>;
   onUpdateTask: (id: string, updates: Partial<Task>) => void;
@@ -24,7 +23,6 @@ export default function CategorySection({
   category,
   tasks,
   expandedTaskId,
-  currentUser,
   onToggleTaskExpand,
   onAddTask,
   onUpdateTask,
@@ -60,7 +58,6 @@ export default function CategorySection({
                   key={task.id}
                   task={task}
                   isExpanded={expandedTaskId === task.id}
-                  currentUser={currentUser}
                   onToggleExpand={() => onToggleTaskExpand(task.id)}
                   onUpdate={onUpdateTask}
                   onDelete={onDeleteTask}

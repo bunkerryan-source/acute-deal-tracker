@@ -5,8 +5,7 @@ import PasswordScreen from "./PasswordScreen";
 import AppShell from "./AppShell";
 
 export default function AuthGate() {
-  const { isAuthenticated, currentUser, isLoading, login, setUser } =
-    useAuth();
+  const { isAuthenticated, isLoading, login } = useAuth();
 
   if (isLoading) {
     return (
@@ -20,5 +19,5 @@ export default function AuthGate() {
     return <PasswordScreen onLogin={login} />;
   }
 
-  return <AppShell currentUser={currentUser} onSelectUser={setUser} />;
+  return <AppShell />;
 }

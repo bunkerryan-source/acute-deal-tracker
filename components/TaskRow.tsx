@@ -9,7 +9,6 @@ import TaskExpanded from "./TaskExpanded";
 interface TaskRowProps {
   task: Task;
   isExpanded: boolean;
-  currentUser: UserName | null;
   onToggleExpand: () => void;
   onUpdate: (id: string, updates: Partial<Task>) => void;
   onDelete: (id: string) => void;
@@ -18,7 +17,6 @@ interface TaskRowProps {
 export default function TaskRow({
   task,
   isExpanded,
-  currentUser,
   onToggleExpand,
   onUpdate,
   onDelete,

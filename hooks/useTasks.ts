@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
-import { Task, UserName } from "@/lib/database.types";
+import { Task } from "@/lib/database.types";
 
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -96,18 +96,12 @@ export function useTasks() {
   );
 
   const updateTask = useCallback(
-    async (
-      id: string,
-      updates: Partial<Task>,
-      currentUser?: UserName | null
-    ) => {
-      let finalUpdates = { ...updates };
+    async (id: string, updates: Partial<Task>) => {
+      const finalUpdates = { ...updates };
 
-      if (updates.status === "done" && currentUser) {
-        finalUpdates.completed_by = currentUser;
+      if (updates.status === "done") {
         finalUpdates.completed_at = new Date().toISOString();
-      } else if (updates.status && updates.status !== "done") {
-        finalUpdates.completed_by = null;
+      } else if (updates.status) {
         finalUpdates.completed_at = null;
       }
 
