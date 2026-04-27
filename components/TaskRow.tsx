@@ -35,38 +35,48 @@ export default function TaskRow({
     onUpdate(task.id, { assigned_to: next });
   }
 
-  let dueDateColor = "text-gray-500";
+  let dueDateColor = "text-ink-60";
   if (task.due_date && !isDone) {
     if (isOverdue(task.due_date)) {
-      dueDateColor = "text-red-500 font-medium";
+      dueDateColor = "text-terra font-medium";
     } else if (isDueToday(task.due_date)) {
-      dueDateColor = "text-amber-600 font-medium";
+      dueDateColor = "text-terra-muted font-medium";
     }
   }
+
+  const accentBorder =
+    task.status === "in_progress" ? "border-l-terra" : "border-l-transparent";
 
   return (
     <div>
       <div
         onClick={onToggleExpand}
-        className={`flex cursor-pointer items-center gap-3 px-3 py-2.5 transition-colors hover:bg-gray-50 ${
-          isExpanded ? "bg-gray-50" : ""
+        className={`flex cursor-pointer items-center gap-3 border-l-[3px] px-[18px] py-3 transition-colors hover:bg-[rgba(14,30,58,0.03)] ${accentBorder} ${
+          isExpanded ? "bg-[rgba(14,30,58,0.03)]" : ""
         }`}
       >
         <StatusIndicator status={task.status} onClick={handleStatusCycle} />
         <span
-          className={`flex-1 truncate text-sm ${
-            isDone ? "text-gray-400 line-through" : "text-gray-900"
+          className={`flex-1 truncate text-[14px] font-[450] leading-[1.35] ${
+            isDone ? "text-ink-40 line-through" : "text-ink"
           }`}
         >
           {task.title}
         </span>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex shrink-0 items-center gap-2.5">
           <AssigneeChip
             assignee={task.assigned_to}
             onClick={handleAssigneeCycle}
           />
           {task.due_date && (
-            <span className={`text-xs ${dueDateColor}`}>
+            <span
+              className={`min-w-[50px] text-right ${dueDateColor}`}
+              style={{
+                fontFamily: "var(--font-jetbrains-mono)",
+                fontSize: 11,
+                fontVariantNumeric: "tabular-nums",
+              }}
+            >
               {formatDate(task.due_date)}
             </span>
           )}

@@ -17,28 +17,6 @@ export function statusLabel(status: TaskStatus): string {
   }
 }
 
-export function statusColor(status: TaskStatus): string {
-  switch (status) {
-    case "not_started":
-      return "bg-gray-300";
-    case "in_progress":
-      return "bg-amber-400";
-    case "done":
-      return "bg-teal-500";
-  }
-}
-
-export function statusTextColor(status: TaskStatus): string {
-  switch (status) {
-    case "not_started":
-      return "text-gray-500 bg-gray-100";
-    case "in_progress":
-      return "text-amber-700 bg-amber-50";
-    case "done":
-      return "text-teal-700 bg-teal-50";
-  }
-}
-
 export function formatDate(dateStr: string): string {
   const [y, m, d] = dateStr.split("-").map(Number);
   return new Intl.DateTimeFormat("en-US", {

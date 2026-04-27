@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from "react";
 
 interface CategoryHeaderProps {
   name: string;
-  taskCount: number;
+  doneCount: number;
+  totalCount: number;
   isCollapsed: boolean;
   onToggleCollapse: () => void;
   onRename: (newName: string) => void;
@@ -14,7 +15,8 @@ interface CategoryHeaderProps {
 
 export default function CategoryHeader({
   name,
-  taskCount,
+  doneCount,
+  totalCount,
   isCollapsed,
   onToggleCollapse,
   onRename,
@@ -43,13 +45,17 @@ export default function CategoryHeader({
   }
 
   return (
-    <div className="flex items-center gap-2 px-3 py-3">
+    <div
+      className={`flex items-center gap-2.5 bg-stone-2 px-[18px] py-[14px] ${
+        isCollapsed ? "" : "border-b border-ink-10"
+      }`}
+    >
       <button
         onClick={onToggleCollapse}
-        className="flex h-6 w-6 shrink-0 items-center justify-center text-gray-400 hover:text-gray-600"
+        className="flex h-6 w-6 shrink-0 items-center justify-center text-ink-60 hover:text-ink"
       >
         <svg
-          className={`h-4 w-4 transition-transform duration-200 ${
+          className={`h-[14px] w-[14px] transition-transform duration-200 ${
             isCollapsed ? "" : "rotate-90"
           }`}
           fill="none"
@@ -57,11 +63,7 @@ export default function CategoryHeader({
           stroke="currentColor"
           strokeWidth={2}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 5l7 7-7 7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </button>
 
@@ -79,19 +81,26 @@ export default function CategoryHeader({
               setIsEditing(false);
             }
           }}
-          className="flex-1 rounded border border-teal-500 bg-white px-2 py-0.5 text-sm font-semibold text-gray-900 outline-none ring-2 ring-teal-500/20"
+          className="flex-1 rounded border border-terra bg-white px-2 py-0.5 text-[14px] font-semibold text-ink outline-none ring-2 ring-terra/20"
         />
       ) : (
         <button
           onClick={() => setIsEditing(true)}
-          className="flex-1 text-left text-sm font-semibold text-gray-900 hover:text-teal-700"
+          className="flex-1 text-left text-[14px] font-semibold text-ink hover:text-terra"
         >
           {name}
         </button>
       )}
 
-      <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">
-        {taskCount}
+      <span
+        className="rounded-[3px] border border-ink-10 bg-white px-2 py-[3px] text-ink-60"
+        style={{
+          fontFamily: "var(--font-jetbrains-mono)",
+          fontSize: 11,
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {doneCount}/{totalCount}
       </span>
 
       {canDelete && (
@@ -100,7 +109,7 @@ export default function CategoryHeader({
             e.stopPropagation();
             onDelete();
           }}
-          className="flex h-6 w-6 items-center justify-center rounded text-gray-300 hover:text-red-500"
+          className="flex h-6 w-6 items-center justify-center rounded text-ink-20 hover:text-terra"
           title="Delete category (empty)"
         >
           <svg

@@ -1,12 +1,17 @@
 "use client";
 
 import { TaskStatus } from "@/lib/database.types";
-import { statusColor } from "@/lib/utils";
 
 interface StatusIndicatorProps {
   status: TaskStatus;
   onClick: () => void;
 }
+
+const stateClass: Record<TaskStatus, string> = {
+  not_started: "bg-white border-ink-20",
+  in_progress: "bg-navy border-navy",
+  done: "bg-terra border-terra",
+};
 
 export default function StatusIndicator({
   status,
@@ -18,28 +23,22 @@ export default function StatusIndicator({
         e.stopPropagation();
         onClick();
       }}
-      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors hover:ring-2 hover:ring-gray-300 ${statusColor(
-        status
-      )}`}
-      title={`Click to change status`}
+      className={`flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border-[1.5px] transition-colors ${stateClass[status]}`}
+      title="Click to change status"
     >
       {status === "done" && (
         <svg
-          className="h-3.5 w-3.5 text-white"
+          className="h-[13px] w-[13px] text-white"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={3}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M5 13l4 4L19 7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       )}
       {status === "in_progress" && (
-        <div className="h-2 w-2 rounded-full bg-white" />
+        <div className="h-[7px] w-[7px] rounded-full bg-white" />
       )}
     </button>
   );

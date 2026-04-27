@@ -7,6 +7,14 @@ interface AssigneeChipProps {
   onClick?: () => void;
 }
 
+const baseClass =
+  "rounded-[3px] border px-2 py-[3px] uppercase tracking-[0.06em]";
+const monoStyle: React.CSSProperties = {
+  fontFamily: "var(--font-jetbrains-mono)",
+  fontSize: 10,
+  letterSpacing: "0.06em",
+};
+
 export default function AssigneeChip({ assignee, onClick }: AssigneeChipProps) {
   if (!assignee) {
     return onClick ? (
@@ -15,17 +23,18 @@ export default function AssigneeChip({ assignee, onClick }: AssigneeChipProps) {
           e.stopPropagation();
           onClick();
         }}
-        className="rounded-full border border-dashed border-gray-300 px-2 py-0.5 text-xs text-gray-400 hover:border-gray-400 hover:text-gray-500"
+        className={`${baseClass} border-dashed border-ink-20 text-ink-40 hover:text-ink-60`}
+        style={monoStyle}
       >
-        --
+        unassigned
       </button>
     ) : null;
   }
 
   const colors =
     assignee === "Ryan"
-      ? "bg-teal-50 text-teal-700 border-teal-200"
-      : "bg-blue-50 text-blue-700 border-blue-200";
+      ? "border-terra text-terra bg-terra/[0.06]"
+      : "border-navy text-navy bg-navy/[0.05]";
 
   return (
     <button
@@ -33,7 +42,8 @@ export default function AssigneeChip({ assignee, onClick }: AssigneeChipProps) {
         e.stopPropagation();
         onClick?.();
       }}
-      className={`rounded-full border px-2 py-0.5 text-xs font-medium ${colors}`}
+      className={`${baseClass} ${colors}`}
+      style={monoStyle}
     >
       {assignee}
     </button>

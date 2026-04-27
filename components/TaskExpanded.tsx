@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Task, TaskStatus, UserName } from "@/lib/database.types";
-import { statusLabel, statusTextColor, formatTimestamp } from "@/lib/utils";
+import { statusLabel, formatTimestamp } from "@/lib/utils";
 import ConfirmDialog from "./ConfirmDialog";
 
 interface TaskExpandedProps {
@@ -23,6 +23,18 @@ export default function TaskExpanded({
   const statuses: TaskStatus[] = ["not_started", "in_progress", "done"];
   const assignees: (UserName | null)[] = ["Ryan", "Matt", null];
 
+  const statusActive: Record<TaskStatus, string> = {
+    not_started: "bg-ink text-white",
+    in_progress: "bg-navy text-white",
+    done: "bg-terra text-white",
+  };
+
+  function assigneeActive(a: UserName | null): string {
+    if (a === "Ryan") return "bg-terra text-white";
+    if (a === "Matt") return "bg-navy text-white";
+    return "bg-ink-60 text-white";
+  }
+
   function handleTitleBlur() {
     const trimmed = title.trim();
     if (trimmed && trimmed !== task.title) {
@@ -40,115 +52,111 @@ export default function TaskExpanded({
   }
 
   return (
-    <div className="border-t border-gray-100 bg-gray-50/50 px-3 pb-4 pt-3">
-      <div className="space-y-3">
-        {/* Title */}
+    <div className="flex flex-col gap-4 border-t border-ink-10 bg-paper px-[22px] py-[18px]">
+      {/* Title */}
+      <input
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        onBlur={handleTitleBlur}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") e.currentTarget.blur();
+        }}
+        className="w-full rounded border border-ink-10 bg-white px-3 py-2.5 text-[14px] font-medium text-ink outline-none focus:border-terra focus:ring-2 focus:ring-terra/20"
+      />
+
+      {/* Status */}
+      <div>
+        <label className="mb-1.5 block mono-label">Status</label>
+        <div className="flex gap-1.5">
+          {statuses.map((s) => (
+            <button
+              key={s}
+              onClick={() => onUpdate({ status: s })}
+              className={`rounded px-3 py-1.5 text-[12px] font-medium transition-colors ${
+                task.status === s
+                  ? statusActive[s]
+                  : "border border-ink-10 bg-white text-ink-60 hover:text-ink"
+              }`}
+            >
+              {statusLabel(s)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Assignee */}
+      <div>
+        <label className="mb-1.5 block mono-label">Assigned To</label>
+        <div className="flex gap-1.5">
+          {assignees.map((a) => (
+            <button
+              key={a || "unassigned"}
+              onClick={() => onUpdate({ assigned_to: a })}
+              className={`rounded px-3 py-1.5 text-[12px] font-medium transition-colors ${
+                task.assigned_to === a
+                  ? assigneeActive(a)
+                  : "border border-ink-10 bg-white text-ink-60 hover:text-ink"
+              }`}
+            >
+              {a || "Unassigned"}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Due date */}
+      <div>
+        <label className="mb-1.5 block mono-label">Due Date</label>
         <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          onBlur={handleTitleBlur}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") e.currentTarget.blur();
-          }}
-          className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
+          type="date"
+          value={task.due_date || ""}
+          onChange={(e) => onUpdate({ due_date: e.target.value || null })}
+          className="rounded border border-ink-10 bg-white px-3 py-2 text-[13px] text-ink outline-none focus:border-terra focus:ring-2 focus:ring-terra/20"
         />
+      </div>
 
-        {/* Status */}
-        <div>
-          <label className="mb-1 block text-xs font-medium text-gray-500 uppercase tracking-wide">
-            Status
-          </label>
-          <div className="flex gap-1.5">
-            {statuses.map((s) => (
-              <button
-                key={s}
-                onClick={() => onUpdate({ status: s })}
-                className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                  task.status === s
-                    ? statusTextColor(s)
-                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                }`}
-              >
-                {statusLabel(s)}
-              </button>
-            ))}
-          </div>
-        </div>
+      {/* Notes */}
+      <div>
+        <label className="mb-1.5 block mono-label">Notes</label>
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          onBlur={handleNotesBlur}
+          rows={3}
+          placeholder="Add notes..."
+          className="w-full resize-y rounded border border-ink-10 bg-white px-3 py-2.5 text-[13px] leading-[1.5] text-ink outline-none focus:border-terra focus:ring-2 focus:ring-terra/20"
+        />
+      </div>
 
-        {/* Assignee */}
-        <div>
-          <label className="mb-1 block text-xs font-medium text-gray-500 uppercase tracking-wide">
-            Assigned To
-          </label>
-          <div className="flex gap-1.5">
-            {assignees.map((a) => (
-              <button
-                key={a || "unassigned"}
-                onClick={() => onUpdate({ assigned_to: a })}
-                className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                  task.assigned_to === a
-                    ? a === "Ryan"
-                      ? "bg-teal-50 text-teal-700"
-                      : a === "Matt"
-                      ? "bg-blue-50 text-blue-700"
-                      : "bg-gray-200 text-gray-700"
-                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                }`}
-              >
-                {a || "Unassigned"}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Due date */}
-        <div>
-          <label className="mb-1 block text-xs font-medium text-gray-500 uppercase tracking-wide">
-            Due Date
-          </label>
-          <input
-            type="date"
-            value={task.due_date || ""}
-            onChange={(e) =>
-              onUpdate({ due_date: e.target.value || null })
-            }
-            className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
-          />
-        </div>
-
-        {/* Notes */}
-        <div>
-          <label className="mb-1 block text-xs font-medium text-gray-500 uppercase tracking-wide">
-            Notes
-          </label>
-          <textarea
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            onBlur={handleNotesBlur}
-            rows={3}
-            placeholder="Add notes..."
-            className="w-full resize-y rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 placeholder-gray-400 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
-          />
-        </div>
-
-        {/* Completed info */}
-        {task.status === "done" && task.completed_by && (
-          <div className="rounded-lg bg-teal-50 px-3 py-2 text-xs text-teal-700">
-            Completed by {task.completed_by}
-            {task.completed_at && <> on {formatTimestamp(task.completed_at)}</>}
-          </div>
-        )}
-
-        {/* Delete */}
-        <div className="pt-1">
-          <button
-            onClick={() => setShowDeleteConfirm(true)}
-            className="text-xs font-medium text-red-500 hover:text-red-700"
+      {task.status === "done" && task.completed_by && (
+        <div className="flex items-center gap-2 rounded border border-terra/20 bg-terra/[0.07] px-[14px] py-2.5 text-[12px] text-terra">
+          <svg
+            className="h-4 w-4 shrink-0"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2.5}
           >
-            Delete task
-          </button>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>
+            Completed by <strong>{task.completed_by}</strong>
+            {task.completed_at && (
+              <> · {formatTimestamp(task.completed_at)}</>
+            )}
+          </span>
         </div>
+      )}
+
+      {/* Delete */}
+      <div>
+        <button
+          onClick={() => setShowDeleteConfirm(true)}
+          className="mono-label hover:text-terra"
+        >
+          Delete task
+        </button>
       </div>
 
       {showDeleteConfirm && (
