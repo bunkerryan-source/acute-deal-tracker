@@ -26,16 +26,40 @@ export default function AddTaskInput({ onAdd }: AddTaskInputProps) {
     }
   }
 
+  const showAddButton = title.trim().length > 0 && !submitting;
+
   return (
-    <form onSubmit={handleSubmit} className="px-3 pb-3 pt-1">
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-center gap-2.5 border-t border-ink-06 bg-paper px-[18px] py-2.5"
+    >
+      <svg
+        className="h-[14px] w-[14px] shrink-0 text-ink-40"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+        aria-hidden="true"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m-7-7h14" />
+      </svg>
       <input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="+ Add task"
+        placeholder="Add task..."
         disabled={submitting}
-        className="w-full rounded-lg border border-dashed border-gray-300 bg-transparent px-3 py-2 text-sm text-gray-700 placeholder-gray-400 outline-none transition-colors focus:border-teal-500 focus:bg-white disabled:opacity-50"
+        className="flex-1 bg-transparent text-[13px] text-ink placeholder-ink-40 outline-none disabled:opacity-50"
       />
+      {showAddButton && (
+        <button
+          type="submit"
+          className="rounded-[3px] bg-terra px-2 py-[3px] uppercase tracking-[0.06em] text-white hover:bg-terra-muted"
+          style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: 10 }}
+        >
+          Add ↵
+        </button>
+      )}
     </form>
   );
 }

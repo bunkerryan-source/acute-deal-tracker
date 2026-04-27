@@ -33,9 +33,9 @@ export default function AddCategoryInput({ onAdd }: AddCategoryInputProps) {
       <div className="mx-auto w-full max-w-3xl px-4 py-4">
         <button
           onClick={() => setIsOpen(true)}
-          className="w-full rounded-lg border border-dashed border-gray-300 py-3 text-sm font-medium text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
+          className="w-full rounded-md border border-dashed border-ink-20 py-3.5 text-[13px] font-medium text-ink-60 transition-colors hover:border-ink-40 hover:text-navy"
         >
-          + Add Category
+          + Add category
         </button>
       </div>
     );
@@ -43,10 +43,7 @@ export default function AddCategoryInput({ onAdd }: AddCategoryInputProps) {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-4">
-      <form
-        onSubmit={handleSubmit}
-        className="flex gap-2"
-      >
+      <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="text"
           value={name}
@@ -60,12 +57,12 @@ export default function AddCategoryInput({ onAdd }: AddCategoryInputProps) {
               setName("");
             }
           }}
-          className="flex-1 rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 disabled:opacity-50"
+          className="flex-1 rounded border border-ink-20 px-3.5 py-2.5 text-[14px] text-ink placeholder-ink-40 outline-none focus:border-terra focus:ring-2 focus:ring-terra/20 disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={submitting || !name.trim()}
-          className="rounded-lg bg-teal-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-teal-700 disabled:opacity-50"
+          className="rounded bg-terra px-4 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-terra-muted disabled:opacity-50"
         >
           Add
         </button>
@@ -75,7 +72,7 @@ export default function AddCategoryInput({ onAdd }: AddCategoryInputProps) {
             setIsOpen(false);
             setName("");
           }}
-          className="rounded-lg px-3 py-2.5 text-sm text-gray-500 hover:bg-gray-100"
+          className="rounded px-3 py-2.5 text-[14px] text-ink-60 hover:bg-ink-06 hover:text-navy"
         >
           Cancel
         </button>

@@ -9,8 +9,8 @@ export default function AuthGate() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="text-sm text-gray-400">Loading...</div>
+      <div className="flex min-h-screen items-center justify-center bg-stone">
+        <div className="text-sm text-ink-40">Loading...</div>
       </div>
     );
   }
