@@ -1,0 +1,126 @@
+/* Acute Todo — Brand tokens + base */
+:root {
+  --terra: #BF4A20;
+  --terra-soft: #d97a55;
+  --terra-muted: #a64018;
+  --navy: #0E1E3A;
+  --navy-2: #1a2c4d;
+  --navy-3: #2a3d60;
+  --stone: #EAE4D6;
+  --stone-2: #f1ecdf;
+  --stone-3: #d8d2c4;
+  --black: #0B0B0B;
+  --white: #ffffff;
+  --paper: #faf7f0;
+
+  --ink: #0E1E3A;
+  --ink-60: rgba(14, 30, 58, 0.62);
+  --ink-40: rgba(14, 30, 58, 0.40);
+  --ink-20: rgba(14, 30, 58, 0.18);
+  --ink-10: rgba(14, 30, 58, 0.10);
+  --ink-06: rgba(14, 30, 58, 0.06);
+
+  --accent: var(--terra);
+  --accent-tint: rgba(191, 74, 32, 0.10);
+
+  --font-ui: "Inter Tight", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 10px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-ui);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Acute monogram — triangle cutout in a square */
+.acute-mark {
+  display: inline-block;
+  vertical-align: middle;
+}
+.acute-wordmark {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+.acute-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Custom checkbox — Terra accent */
+.t-check {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--ink-40);
+  border-radius: 3px;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 120ms ease;
+}
+.t-check:hover { border-color: var(--terra); }
+.t-check.checked {
+  background: var(--terra);
+  border-color: var(--terra);
+}
+.t-check.checked svg { display: block; }
+.t-check svg { display: none; }
+
+/* Mono labels */
+.mono { font-family: var(--font-mono); }
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+
+/* Buttons */
+.btn {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 120ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary { background: var(--terra); color: white; }
+.btn-primary:hover { background: var(--terra-muted); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--ink-20); }
+.btn-ghost:hover { background: var(--ink-06); }
+
+/* Triangle accent (the cutout motif) */
+.tri-accent {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 9px solid var(--terra);
+  display: inline-block;
+}
+
+/* Strikethrough completed */
+.t-done {
+  color: var(--ink-40);
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-40);
+}
