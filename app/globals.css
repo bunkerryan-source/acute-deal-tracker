@@ -2,13 +2,36 @@
 
 @theme inline {
   --font-sans: var(--font-dm-sans);
-  --color-teal-50: #f0fdfa;
-  --color-teal-100: #ccfbf1;
-  --color-teal-200: #99f6e4;
-  --color-teal-500: #14b8a6;
-  --color-teal-600: #0d9488;
-  --color-teal-700: #0f766e;
-  --color-teal-800: #115e59;
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* Brand */
+  --color-terra: #BF4A20;
+  --color-terra-muted: #a64018;
+  --color-terra-tint: #fbeee8;
+
+  --color-navy: #0E1E3A;
+  --color-navy-2: #1a2c4d;
+  --color-navy-tint: #e7eaf0;
+
+  --color-stone: #EAE4D6;
+  --color-stone-2: #f1ecdf;
+  --color-paper: #faf7f0;
+
+  --color-black: #0B0B0B;
+  --color-ink: #0E1E3A;
+  --color-ink-60: rgba(14, 30, 58, 0.62);
+  --color-ink-40: rgba(14, 30, 58, 0.40);
+  --color-ink-20: rgba(14, 30, 58, 0.18);
+  --color-ink-10: rgba(14, 30, 58, 0.10);
+  --color-ink-06: rgba(14, 30, 58, 0.06);
+}
+
+.mono-label {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-60);
 }
 
 @keyframes shake {
